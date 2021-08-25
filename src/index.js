@@ -22,7 +22,7 @@ var forecastCardTemplate = "<div class=\"card\" style=\"width: 18rem;\" id=\"cur
 // up to 16 day forecast api.openweathermap.org/data/2.5/forecast/daily?q={city name},{state code}&cnt={cnt}&appid={API key}
 function getCurrent() {
     $.ajax({
-        url: "http://api.openweathermap.org/data/2.5/weather?q=" + city + "," + state + ",usa&cnt=3&appid=81a628b07908ceaa2f0d789d375fd841&units=imperial"
+        url: "https://api.openweathermap.org/data/2.5/weather?q=" + city + "," + state + ",usa&cnt=3&appid=81a628b07908ceaa2f0d789d375fd841&units=imperial"
     }).then(function (data) {
         currentData = data;
         lat = data.coord.lat;
@@ -39,7 +39,7 @@ function getCurrent() {
 function getForecast() {
     getInputs();
     $.ajax({
-        url: "http://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly&appid=81a628b07908ceaa2f0d789d375fd841&units=imperial"
+        url: "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly&appid=81a628b07908ceaa2f0d789d375fd841&units=imperial"
     }).then(function (data) {
         forecastData = data;
         console.log("forecastData: " + forecastData.daily[0].sunrise);
