@@ -22,7 +22,7 @@ var forecastCardTemplate = "<div class=\"card\" style=\"width: 18rem;\" id=\"cur
 // up to 16 day forecast api.openweathermap.org/data/2.5/forecast/daily?q={city name},{state code}&cnt={cnt}&appid={API key}
 function getCurrent() {
     $.ajax({
-        url: "http://api.openweathermap.org/data/2.5/weather?q=" + city + "," + state + ",usa&cnt=3&appid=81a628b07908ceaa2f0d789d375fd841&units=imperial"
+        url: "https://api.openweathermap.org/data/2.5/weather?q=" + city + "," + state + ",usa&cnt=3&appid=81a628b07908ceaa2f0d789d375fd841&units=imperial"
     }).then(function (data) {
         currentData = data;
         lat = data.coord.lat;
@@ -74,7 +74,7 @@ function render() {
             "<div class=\"card-body\">" +
             "<div class=\"title-container\">" +
             ("<h5 class=\"card-title\" id=\"current-title\">Day " + i + "</h5>") +
-            ("<img class=\"weather-icon\" src=\"http://openweathermap.org/img/wn/" + forecastData.daily[i].weather[0].icon + ".png\" name=\"weather icon\">") +
+            ("<img class=\"weather-icon\" src=\"https://openweathermap.org/img/wn/" + forecastData.daily[i].weather[0].icon + ".png\" name=\"weather icon\">") +
             "</div>" +
             "<br>" +
             ("<h6 class=\"card-subtitle mb-2 text-muted\" id=\"current-temp\">Expect " + forecastData.daily[i].weather[0].description + "</h6>") +
