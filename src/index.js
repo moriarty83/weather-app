@@ -70,7 +70,7 @@ function render() {
         $("#forecast-slides").append("<div class=\"card\" style=\"width: 18rem;\">" +
             "<div class=\"card-body\">" +
             "<div class=\"title-container\">" +
-            ("<h5 class=\"card-title\" id=\"current-title\">Day " + i + "</h5>") +
+            ("<h5 class=\"card-title\" id=\"current-title\">Day " + (i + 1) + "</h5>") +
             ("<img class=\"weather-icon\" src=\"https://openweathermap.org/img/wn/" + forecastData.daily[i].weather[0].icon + ".png\" name=\"weather icon\">") +
             "</div>" +
             "<br>" +
