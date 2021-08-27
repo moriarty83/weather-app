@@ -1,52 +1,40 @@
 
 
 let api:string = "81a628b07908ceaa2f0d789d375fd841";
-let city:string = "Boston";
-let state:string = "ma";
+let city:string = "";
+let state:string = "";
+
+// Lat and Lon are used to make API Request for future forecast.
 let lat:string="";
 let lon:string="";
 
+// Number of days to get forecast for (1 is just Today)
 let days:string = "1"
 
-let currentURL:string = `api.openweathermap.org/data/2.5/weather?q=${city},${state}&appid=${api}`
-
+// Data from Current Weather Request
 let currentData:any;
 
+// Data from Forcast Weather Request
 let forecastData:any;
 
+// Form on Page
 let $form:JQuery = $("form")!
 
-let forecastCardTemplate:string =     
-`<div class="card" style="width: 18rem;" id="current-card">` +
-`<div class="card-body">`+
-  `<h5 class="card-title" id="current-title">Card title</h5>`+
-  `<h6 class="card-subtitle mb-2 text-muted" id="current-temp">Card subtitle</h6>`+
-  `<p class="card-text" id="current-details">Some quick example text to build on the card title and make up the bulk of the card's content.</p>`+
-  `<a href="#" class="card-link">Card link</a>`+
-  `<a href="#" class="card-link">Another link</a>`+
-`</div>`+
-`</div>`
-
-//
-
-// cnt	optional	A number of days, which will be returned in the API response (from 1 to 16). Learn more
-
-// up to 16 day forecast api.openweathermap.org/data/2.5/forecast/daily?q={city name},{state code}&cnt={cnt}&appid={API key}
+// getCurrent gets the current weather.
+// Get forecast and render all cascade through getCurrent.
+// This is because to get future days, a lat and lon must be pulled form the current weather api.
 function getCurrent(){
   $.ajax({
-    url: `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},usa&cnt=3&appid=81a628b07908ceaa2f0d789d375fd841&units=imperial`
+    url: `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},usa&cnt=3&appid=${api}&units=imperial`
   }).then(
     (data) => {
       currentData = data;
       lat = data.coord.lat;
       lon = data.coord.lon;
-      // "coord": {
-      //   "lon": -71.0583,
-      //   "lat": 42.3603
-      console.log(lat);
+
+      // Gets future forecast.
       getForecast();
       
-
     },
     (error) => {
       console.log('bad request: ', error)
@@ -54,9 +42,9 @@ function getCurrent(){
   )
 }
 
-function getForecast(){
-  getInputs();
 
+// Function to get future days forecast. Must be run from getCurrent to get lat and lon values.
+function getForecast(){
   $.ajax(
     {
       url: `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly&appid=81a628b07908ceaa2f0d789d375fd841&units=imperial`
@@ -64,11 +52,9 @@ function getForecast(){
       (data) => 
       {
         forecastData = data;
-        console.log("forecastData: " + forecastData.daily[0].sunrise);
+
+        // Renders weather data on page.
         render();
-
-
-        
       },
       (error) => {
         console.log('bad request: ', error)
@@ -76,14 +62,18 @@ function getForecast(){
   )
 }
 
+// Populate City, State, and Days which are fed into API requests.
 function getInputs(){
   city = $("#city-input").val()?.toString()!;
   state = $("#state-input").val()?.toString()!;
   days = $("#days-input").val()?.toString()!;
+  
   console.log("city: " + city);
   console.log("state: " + state);
 }
 
+
+// Function kicks off everything.
 function getWeather(event:Event){
   event.preventDefault();
   getInputs();
@@ -92,19 +82,23 @@ function getWeather(event:Event){
 
 }
 
+// Listener for Submit button to get weather.
 $form.on('submit', getWeather)
 
+
+// Populates page with forecast/weather information.
 function render(){
   // Render current weather
   $("#current-title").text(`${city}, ${state.toUpperCase()}`)
   $("#current-temp").text(`Current Temp: ${currentData.main.temp}°F`)
   $("#current-details").text(`Expect ${currentData.weather[0].description} with winds up to ${currentData.wind.speed} mph.`)
+  $("#current-link").empty();
 
   // Render Forecast
   $("#forecast-slides").empty();
   for(let i = 1; i < +days; i++){
   $("#forecast-slides").append(
-  `<div class="card" style="width: 18rem;" id="current-card">` +
+  `<div class="card" style="width: 18rem;">` +
     `<div class="card-body">`+
       `<div class="title-container">` +
         `<h5 class="card-title" id="current-title">Day ${i}</h5>`+
