@@ -65,6 +65,9 @@ function getForecast(){
 // Populate City, State, and Days which are fed into API requests.
 function getInputs(){
   city = $("#city-input").val()?.toString()!;
+  // Corrects case of city name.
+  city = city[0].toLocaleUpperCase() + city.slice(1).toLowerCase();
+
   state = $("#state-input").val()?.toString()!;
   days = $("#days-input").val()?.toString()!;
   

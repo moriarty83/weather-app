@@ -12,6 +12,7 @@ By C. Marshall Moriarty
 ### Languages
 - HTML
 - TypeScript
+- JavaScript
 - CSS
 
 ### APIs

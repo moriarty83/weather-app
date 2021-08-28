@@ -44,6 +44,8 @@ function getForecast() {
 function getInputs() {
     var _a, _b, _c;
     city = (_a = $("#city-input").val()) === null || _a === void 0 ? void 0 : _a.toString();
+    // Corrects case of city name.
+    city = city[0].toLocaleUpperCase() + city.slice(1).toLowerCase();
     state = (_b = $("#state-input").val()) === null || _b === void 0 ? void 0 : _b.toString();
     days = (_c = $("#days-input").val()) === null || _c === void 0 ? void 0 : _c.toString();
     console.log("city: " + city);
